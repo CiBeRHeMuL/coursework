@@ -29,6 +29,10 @@
        ```
        composer install
        ```
+   - Прописываем юзера в бд и создаем бд
+     ```
+     sh ./docker/postgres/docker-entrypoint-initdb.d/init-database-and-role.sh.sh
+     ```
 
 ### С докером
 
@@ -54,6 +58,11 @@
 3. Устанавливаем composer зависимости
    ```
    dphp composer install
+   ```
+
+4. Прописываем юзера в бд и создаем бд
+   ```
+   docker exec -it coursework-postgres-container sh /docker-entrypoint-initdb.d/init-database-and-role.sh.sh
    ```
 
 ## После установки
