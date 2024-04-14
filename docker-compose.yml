@@ -1,0 +1,71 @@
+version: "3.9"
+services:
+  coursework-postgres:
+    image: postgres:15
+    restart: always
+    container_name: coursework-postgres-container
+    ports:
+      - "${PG_EXTERNAL_PORT}:5432"
+    volumes:
+      - ./:/app
+      - pgdata:/var/lib/postgresql/data
+      - ./docker/postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_USER: "${PG_ROOT_USER}"
+      PG_USER: "${PG_USER}"
+      PG_PASSWORD: "${PG_PASSWORD}"
+      PG_DB: "${PG_DB}"
+    networks:
+      - coursework-external
+  coursework-php:
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile
+    container_name: coursework-php-container
+    volumes:
+      - ./:/app
+      - coursework_phpsocket:/var/run
+    environment:
+      PG_USER: "${PG_USER}"
+      PG_PASSWORD: "${PG_PASSWORD}"
+      PG_DB: "${PG_DB}"
+      PG_DSN: "${PG_DSN}"
+    depends_on:
+      - coursework-postgres
+    networks:
+      - coursework-external
+  coursework-nginx:
+    image: nginx
+    container_name: coursework-nginx-container
+    labels:
+      - traefik.http.routers.nginx-coursework.rule=Host(`coursework.loc`)
+      - traefik.http.routers.nginx-coursework.tls=true
+      - traefik.docker.network=coursework-external
+    ports:
+      - "${NGINX_EXTERNAL_PORT}:80"
+    volumes:
+      - type: bind
+        source: ./docker/nginx/coursework.loc.nginx.conf
+        target: /etc/nginx/nginx.conf
+      - type: bind
+        source: .
+        target: /app
+      - type: volume
+        source: coursework_phpsocket
+        target: /var/run
+        volume:
+          nocopy: true
+    depends_on:
+      - coursework-php
+    networks:
+      - coursework-external
+
+volumes:
+  pgdata:
+  coursework_phpsocket:
+
+networks:
+  coursework-external:
+    name: coursework-external
+    external: true
+    driver: bridge
