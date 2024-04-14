@@ -1,6 +1,6 @@
 <?php
 
-namespace db;
+namespace app\db;
 
 use yii\db\pgsql\Schema;
 

@@ -6,7 +6,7 @@ return [
     'schemaCacheDuration' => 3600,
     'queryCacheDuration' => 300,
     'schemaMap' => [
-        'pgsql' => '\db\PgSchema',
+        'pgsql' => 'app\db\PgSchema',
     ],
 
     'dsn' => getenv('PG_DSN'),

@@ -1,12 +1,12 @@
 <?php
 
-namespace db;
+namespace app\db;
 
+use app\helpers\HDates;
 use BackedEnum;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
-use helpers\HDates;
 use UnitEnum;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;

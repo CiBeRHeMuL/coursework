@@ -7,13 +7,13 @@ $config = [
     'id' => 'basic-console',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
-    'controllerNamespace' => 'App\Presentation\Command',
+    'controllerNamespace' => 'app\commands',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',
         '@tests' => '@app/tests',
         '@App' => '@app',
-        '@site' => 'https://achievements-api.perfluence.net',
+        '@site' => 'https://coursework.net',
     ],
     'components' => [
         'cache' => [
