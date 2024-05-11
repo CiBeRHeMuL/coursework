@@ -18,12 +18,18 @@
     "irc": "ircs://irc.libera.chat:6697/yii",
     "source": "https://github.com/yiisoft/yii2"
   },
-  "minimum-stability": "stable",
+  "minimum-stability": "dev",
   "require": {
     "php": ">=8.2",
-    "yiisoft/yii2": "~2.0.45",
-    "yiisoft/yii2-bootstrap5": "~2.0.2",
-    "yiisoft/yii2-symfonymailer": "~2.0.3"
+    "ext-ctype": "*",
+    "ext-curl": "*",
+    "ext-mbstring": "*",
+    "yiisoft/yii2": ">=2.0.49.3",
+    "yiisoft/yii2-bootstrap5": ">=2.0.4",
+    "bower-asset/font-awesome": ">=6.5",
+    "kartik-v/yii2-widgets": ">=3.4.1",
+    "borales/yii2-phone-input": "^0.3.0",
+    "ext-zip": "*"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.1.0",

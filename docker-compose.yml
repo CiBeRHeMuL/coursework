@@ -34,6 +34,8 @@ services:
       - coursework-postgres
     networks:
       - coursework-external
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
   coursework-nginx:
     image: nginx
     container_name: coursework-nginx-container
@@ -47,9 +49,7 @@ services:
       - type: bind
         source: ./docker/nginx/coursework.loc.nginx.conf
         target: /etc/nginx/nginx.conf
-      - type: bind
-        source: .
-        target: /app
+      - ./:/app
       - type: volume
         source: coursework_phpsocket
         target: /var/run

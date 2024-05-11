@@ -1,7 +1,7 @@
 <?php
 
-$params = require __DIR__ . '/params.php';
-$db = require __DIR__ . '/db.php';
+$common = require __DIR__ . '/common.php';
+['params' => $params, 'db' => $db, 'container' => $container] = $common;
 
 $config = [
     'id' => 'basic',
@@ -37,15 +37,22 @@ $config = [
                 ],
             ],
         ],
+        'formatter' => [
+            'class' => 'yii\i18n\Formatter',
+            'nullDisplay' => '—',
+        ],
         'db' => $db,
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                '/<controller>/<id:\d+>' => '<controller>/view',
+                '/<controller>/<action>/<id:\d+>' => '<controller>/<action>',
             ],
         ],
     ],
     'params' => $params,
+    'container' => $container,
 ];
 
 if (YII_ENV_DEV) {

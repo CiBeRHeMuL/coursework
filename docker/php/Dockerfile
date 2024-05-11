@@ -6,6 +6,7 @@ ENV PHP_ENABLE_XDEBUG 1
 # Установка PHP и расширений
 RUN apt-get update && apt-get -y install git wget libpq-dev ffmpeg
 RUN docker-php-ext-install pcntl sockets pdo pdo_pgsql pgsql
+RUN rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 

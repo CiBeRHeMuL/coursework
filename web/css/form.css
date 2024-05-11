@@ -1,0 +1,25 @@
+
+label {
+    font-weight: 700;
+}
+
+.form-group.required > label:after {
+    content: " *";
+    color: red;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.invalid-feedback {
+    display: block;
+}
+
+.form-check {
+    cursor: pointer;
+}
+
+.form-check > * {
+    cursor: pointer;
+}

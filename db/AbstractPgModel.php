@@ -8,6 +8,7 @@ use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 use UnitEnum;
+use yii\base\InvalidArgumentException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
@@ -30,38 +31,47 @@ abstract class AbstractPgModel extends ActiveRecord
         ];
     }
 
+    public function load($data, $formName = null): bool
+    {
+        $scope = $formName === null ? $this->formName() : $formName;
+        $data = $scope === '' ? $data : $data[$scope] ?? [];
+        if (!empty($data)) {
+            foreach ($data as $name => &$value) {
+                [$converted, $newValue] = $this->tryConvertDbValueToPhpValue($name, $value);
+                if ($converted) {
+                    $value = $newValue;
+                }
+            }
+            $this->setAttributes($data);
+            return true;
+        }
+        return false;
+    }
+
     public function __get($name)
     {
         $value = $this->getAttribute($name);
+        [$completed, $newValue] = $this->tryConvertDbValueToPhpValue($name, $value);
+        return $completed ? $newValue : parent::__get($name);
+    }
+
+    private function tryConvertDbValueToPhpValue(string $name, $value): array
+    {
         /**
          * Пытаемся получить поле как перечисление
          */
         $enum = $this->getFieldEnum($name);
         if ($enum) {
-            if ($value !== null) {
-                if (is_subclass_of($enum, BackedEnum::class)) {
-                    return $enum::from($value);
-                } elseif (is_subclass_of($enum, UnitEnum::class)) {
-                    return $enum::$$value;
-                }
-            }
-            return $value;
+            return [true, $this->dbValueToPhpEnum($enum, $value)];
         }
         /**
          * Пытаемся получить поле как время
          */
         $dateTimeClass = $this->getDateTimeFieldPhpType($name);
         if ($dateTimeClass) {
-            if ($value !== null) {
-                if (is_subclass_of($dateTimeClass, DateTime::class)) {
-                    return new DateTime($value);
-                } elseif (is_subclass_of($dateTimeClass, DateTimeImmutable::class)) {
-                    return new DateTimeImmutable($value);
-                }
-            }
-            return null;
+            return [true, $this->dbValueToPhpDateTime($dateTimeClass, $value)];
         }
-        return parent::__get($name);
+        return [false, null];
     }
 
     public function __set($name, $value): void
@@ -71,25 +81,59 @@ abstract class AbstractPgModel extends ActiveRecord
          */
         $enum = $this->getFieldEnum($name);
         if ($enum) {
-            if ($value !== null) {
-                if (is_subclass_of($enum, BackedEnum::class)) {
-                    $value = $value->value;
-                } elseif (is_subclass_of($enum, UnitEnum::class)) {
-                    $value = $value->name;
-                }
-            }
+            $value = $this->phpEnumToDbValue($enum, $value);
         }
         /**
          * Пытаемся установить поле как время
          */
         $dateTimeFormat = $this->getDateTimeFieldDbFormat($name);
         if ($dateTimeFormat) {
-            /** @var DateTimeInterface|null $value */
-            if ($value !== null) {
-                $value = $value->format($dateTimeFormat);
-            }
+            $value = $this->phpDateTimeToDbValue($dateTimeFormat, $value);
         }
         parent::__set($name, $value);
+    }
+
+    public function dbValueToPhpEnum(string $enumClass, string|int|null $value): UnitEnum|null
+    {
+        if ($value) {
+            if (is_subclass_of($enumClass, BackedEnum::class)) {
+                return $enumClass::from($value);
+            } elseif (is_subclass_of($enumClass, UnitEnum::class)) {
+                return $enumClass::$$value;
+            } else {
+                throw new InvalidArgumentException('Invalid enum class');
+            }
+        }
+        return null;
+    }
+
+    public function phpEnumToDbValue(string $enumClass, UnitEnum|null $value): int|string|null
+    {
+        if ($value !== null) {
+            if (is_subclass_of($enumClass, BackedEnum::class)) {
+                return $value->value;
+            } elseif (is_subclass_of($enumClass, UnitEnum::class)) {
+                return $value->name;
+            }
+        }
+        return null;
+    }
+
+    public function dbValueToPhpDateTime(string $class, string|null $value): DateTimeInterface|null
+    {
+        if ($value) {
+            if (is_a($class, DateTime::class, true)) {
+                return new DateTime($value);
+            } elseif (is_a($class, DateTimeImmutable::class, true)) {
+                return new DateTimeImmutable($value);
+            }
+        }
+        return null;
+    }
+
+    public function phpDateTimeToDbValue(string $format, DateTimeInterface|null $time): string|null
+    {
+        return $time?->format($format);
     }
 
     /**
@@ -151,5 +195,30 @@ abstract class AbstractPgModel extends ActiveRecord
             'created_at' => [DateTimeImmutable::class, self::PROPERTY_DATETIME_FORMAT],
             'updated_at' => [DateTimeImmutable::class, self::PROPERTY_DATETIME_FORMAT],
         ];
+    }
+
+    public function getRawAttribute(string $name): mixed
+    {
+        if (property_exists($this, $name)) {
+            return $this->$name;
+        }
+        return parent::__get($name);
+    }
+
+    public function getOldAttribute($name)
+    {
+        $value = parent::getOldAttribute($name);
+        [$completed, $newValue] = $this->tryConvertDbValueToPhpValue($name, $value);
+        return $completed ? $newValue : $value;
+    }
+
+    public function getOldAttributes(): array
+    {
+        $attributes = parent::getOldAttributes();
+        array_walk(
+            $attributes,
+            fn(&$value, $key) => $value = $this->tryConvertDbValueToPhpValue($key, $value),
+        );
+        return $attributes;
     }
 }
