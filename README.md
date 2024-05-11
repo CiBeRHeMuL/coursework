@@ -31,7 +31,7 @@
        ```
    - Прописываем юзера в бд и создаем бд
      ```
-     sh ./docker/postgres/docker-entrypoint-initdb.d/init-database-and-role.sh.sh
+     sh ./docker/postgres/docker-entrypoint-initdb.d/init-database-and-role.sh
      ```
 
 ### С докером
@@ -62,7 +62,7 @@
 
 4. Прописываем юзера в бд и создаем бд
    ```
-   docker exec -it coursework-postgres-container sh /docker-entrypoint-initdb.d/init-database-and-role.sh.sh
+   docker exec -it coursework-postgres-container sh /docker-entrypoint-initdb.d/init-database-and-role.sh
    ```
 
 ## После установки
