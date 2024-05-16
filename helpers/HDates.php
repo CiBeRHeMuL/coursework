@@ -44,13 +44,13 @@ class HDates
         if ($nowTimestamp >= $timeTimestamp) {
             $diff = $nowTimestamp - $timeTimestamp;
             if ($diff < self::MINUTE) {
-                return Yii::t('app', 'Только что');
+                return Yii::t('app', 'только что');
             } elseif ($diff < self::MINUTE * 5) {
                 return Yii::t('app', '5 минут назад');
             } elseif ($diff < self::MINUTE * 15) {
                 return Yii::t('app', '15 минут назад');
             } elseif ($diff < self::MINUTE * 30) {
-                return Yii::t('app', 'Полчаса назад');
+                return Yii::t('app', 'полчаса назад');
             } elseif ($diff < self::DAY) {
                 $hoursCount = intdiv($diff, self::HOUR) + 1;
                 if ($hoursCount > 1 && $hoursCount < 24) {
@@ -68,14 +68,14 @@ class HDates
                         ],
                     );
                 } elseif ($hoursCount === 1) {
-                    return Yii::t('app', 'Час назад');
+                    return Yii::t('app', 'час назад');
                 }
-                return Yii::t('app', 'Сутки назад');
+                return Yii::t('app', 'сутки назад');
             } elseif ($diff < self::MONTH) {
                 $monthDiff = $now->diff($time)->m;
                 $daysCount = intdiv($diff, self::DAY) + 1;
                 if ($monthDiff === 1 || $daysCount > 30) {
-                    return Yii::t('app', 'Месяц назад');
+                    return Yii::t('app', 'месяц назад');
                 } elseif ($daysCount > 1 && $daysCount < 30) {
                     return Yii::t(
                         'app',
@@ -91,10 +91,10 @@ class HDates
                         ],
                     );
                 } elseif ($daysCount === 1) {
-                    return Yii::t('app', 'Сутки назад');
+                    return Yii::t('app', 'сутки назад');
                 }
             }
         }
-        return Yii::t('app', 'Очень давно');
+        return Yii::t('app', 'очень давно');
     }
 }
