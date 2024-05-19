@@ -2,11 +2,11 @@
 
 namespace app\controllers;
 
-use app\models\upload\FileUploadResult;
-use app\models\upload\UploadedFile;
 use app\responses\models\upload\FileUploadResponse;
 use app\responses\models\upload\UploadResponse;
-use app\services\UploadService;
+use app\services\upload\models\FileUploadResult;
+use app\services\upload\models\UploadedFile;
+use app\services\upload\UploadService;
 use yii\web\Response;
 
 class UploadController extends AbstractController

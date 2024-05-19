@@ -1,5 +1,6 @@
 <?php
 
+use app\enum\FileUploadTypeEnum;
 use app\helpers\HHtml;
 use app\models\ProjectVersion;
 use app\widgets\ActiveForm;
@@ -91,8 +92,10 @@ $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]);
                                 ->hint(Yii::t('app', 'Можно указать ссылку на архив с файлами версии')); ?>
                         </div>
                         <div class="col-12">
-                            <?= $form->field($projectVersion, 'files_url')->widget(FileUploadWidget::class, ['type' => 'pv-files'])
-                                ->label(Yii::t('app', 'Архив'))
+                            <?= $form->field($projectVersion, 'files_url')->widget(
+                                FileUploadWidget::class,
+                                ['type' => FileUploadTypeEnum::PROJECT_VERSION->value],
+                            )->label(Yii::t('app', 'Архив'))
                                 ->hint(Yii::t('app', 'Можно загрузить архив вручную')); ?>
                         </div>
                     </div>

@@ -18,7 +18,7 @@
     "irc": "ircs://irc.libera.chat:6697/yii",
     "source": "https://github.com/yiisoft/yii2"
   },
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "require": {
     "php": ">=8.2",
     "ext-ctype": "*",

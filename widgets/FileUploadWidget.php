@@ -13,6 +13,7 @@ class FileUploadWidget extends Widget
     public Model $model;
     public string $attribute;
     public string $type;
+    public array|null $extensions = null;
 
     public function run(): string
     {
@@ -54,7 +55,9 @@ JS,
                         [
                             'class' => 'opacity-0 position-absolute w-100',
                             'style' => 'left: 0; z-index: -1',
-                            'accept' => '.zip,.tar',
+                            'accept' => $this->extensions !== null
+                                ? implode(',', array_map(fn($e) => '.' . ltrim($e, '.'), $this->extensions))
+                                : null,
                             'id' => "{$this->getId()}-file-input",
                         ],
                     )

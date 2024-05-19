@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models\upload;
+namespace app\services\upload\models;
 
 readonly class UploadedFile
 {
