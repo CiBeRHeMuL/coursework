@@ -23,7 +23,7 @@ class ProjectsFilter extends Model
             ->alias('t')
             ->with(['currentVersion'])
             ->filterWhere(['ILIKE', 't.name', $this->name])
-            ->filterWhere(['status' => $this->statuses !== null ? array_map(fn(ProjectStatusEnum $s) => $s->value, $this->statuses) : null])
+            ->andFilterWhere(['status' => $this->statuses !== null ? array_map(fn(ProjectStatusEnum $s) => $s->value, $this->statuses) : null])
             ->andFilterWhere(['t.id' => $this->id, 't.agent_id' => $this->agentId]);
         $provider = new ActiveDataProvider([
             'query' => $query,
