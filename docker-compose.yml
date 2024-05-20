@@ -15,6 +15,7 @@ services:
       PG_USER: "${PG_USER}"
       PG_PASSWORD: "${PG_PASSWORD}"
       PG_DB: "${PG_DB}"
+      POSTGRES_PASSWORD: "${PG_ROOT_USER_PASSWORD}"
     networks:
       - coursework-external
   coursework-php:

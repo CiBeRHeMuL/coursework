@@ -11,6 +11,7 @@ RUN rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 
 RUN addgroup --gid 1000 --system app
+RUN chmod -R 775 .
 
 # Скачивание необходимых файлов
 RUN wget "http://browscap.org/stream?q=Lite_PHP_BrowsCapINI" -O /usr/local/etc/php/php_browscap.ini
