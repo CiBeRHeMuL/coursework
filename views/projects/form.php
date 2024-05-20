@@ -1,10 +1,12 @@
 <?php
 
+use app\enum\FileUploadTypeEnum;
 use app\enum\ProjectStatusEnum;
 use app\helpers\HEnum;
 use app\helpers\HHtml;
 use app\models\Project;
 use app\widgets\ActiveForm;
+use app\widgets\FileUploadWidget;
 use app\widgets\Select2;
 use yii\web\View;
 
@@ -32,10 +34,6 @@ $form = ActiveForm::begin();
                         <?= $form->field($project, 'name')->textInput(); ?>
                     </div>
                     <div class="col-12">
-                        <?= $form->field($project, 'description')
-                            ->textarea(['placeholder' => Yii::t('app', 'Подробное описание'), 'style' => 'min-height: 150px;']); ?>
-                    </div>
-                    <div class="col-12">
                         <?= $form->field($project, 'agent_id')->select2Ajax(
                             '/project-agents/filter',
                             ['options' => ['placeholder' => Yii::t('app', 'Выбери агента')]],
@@ -54,6 +52,31 @@ $form = ActiveForm::begin();
                                 'options' => ['placeholder' => Yii::t('app', 'Выбери статус')],
                             ],
                         ) ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-12">
+        <div class="card">
+            <div class="card-header fw-bolder">
+                <?= Yii::t('app', 'Оформление'); ?>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <?= $form->field($project, 'description')
+                            ->textarea(['placeholder' => Yii::t('app', 'Подробное описание'), 'style' => 'min-height: 150px;']); ?>
+                    </div>
+                    <div class="col-12">
+                        <?= $form->field($project, 'logo')->input('url')
+                            ->hint(Yii::t('app', 'Можно указать ссылку')); ?>
+                    </div>
+                    <div class="col-12">
+                        <?= $form->field($project, 'logo')->widget(
+                            FileUploadWidget::class,
+                            ['type' => FileUploadTypeEnum::PROJECT_LOGO->value, 'extensions' => FileUploadTypeEnum::PROJECT_LOGO->getExtensions()],
+                        )->hint(Yii::t('app', 'Можно загрузить вручную')); ?>
                     </div>
                 </div>
             </div>

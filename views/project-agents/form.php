@@ -1,10 +1,12 @@
 <?php
 
+use app\enum\FileUploadTypeEnum;
 use app\enum\PreferredAgentCommunicationMethodEnum;
 use app\helpers\HEnum;
 use app\helpers\HHtml;
 use app\models\ProjectAgent;
 use app\widgets\ActiveForm;
+use app\widgets\FileUploadWidget;
 use app\widgets\Select2;
 use borales\extensions\phoneInput\PhoneInput;
 use yii\web\View;
@@ -36,6 +38,16 @@ $form = ActiveForm::begin();
                         <div class="col-12">
                             <?= $form->field($projectAgent, 'surname')
                                 ->textInput(['placeholder' => Yii::t('app', 'Фамилия')]); ?>
+                        </div>
+                        <div class="col-12">
+                            <div class="col-12">
+                                <?= $form->field($projectAgent, 'avatar')->input('url')
+                                    ->hint(Yii::t('app', 'Можно указать ссылку')); ?>
+                            </div>
+                            <?= $form->field($projectAgent, 'avatar')->widget(
+                                FileUploadWidget::class,
+                                ['type' => FileUploadTypeEnum::USER_AVATAR->value, 'extensions' => FileUploadTypeEnum::USER_AVATAR->getExtensions()]
+                            )->hint(Yii::t('app', 'Можно загрузить вручную')); ?>
                         </div>
                     </div>
                 </div>

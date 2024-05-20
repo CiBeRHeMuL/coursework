@@ -6,6 +6,7 @@ use app\models\Project;
 use app\widgets\GridView;
 use yii\bootstrap5\Html;
 use yii\grid\ActionColumn;
+use yii\helpers\Url;
 use yii\web\View;
 
 /**
@@ -48,7 +49,7 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Проекты'), 'u
                 ),
                 'add_version' => fn($url, Project $p) => Html::a(
                     Html::tag('i', '', ['class' => 'fas fa-circle-plus text-success']),
-                    Yii::getAlias('@site/project-versions/create?' . http_build_query(['project_id' => $p->id])),
+                    Url::to(['/project-versions/create', 'project_id' => $p->id]),
                     ['title' => Yii::t('app', 'Добавить версию')],
                 ),
             ],

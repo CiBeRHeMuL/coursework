@@ -51,6 +51,7 @@ function FileUpload(config, $) {
                             form.querySelectorAll('input[name="' + inputName + '"]').forEach((el) => {
                                 el.setAttribute('value', uploaded_url);
                             });
+                            document.querySelector('#' + this.id + '-file-error').textContent = '';
                         } else {
                             document.querySelector('#' + this.id + '-file-error').textContent = message;
                         }

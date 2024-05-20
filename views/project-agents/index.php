@@ -38,17 +38,12 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Агенты'), 'url
         ],
         [
             'class' => ActionColumn::class,
-            'template' => '{update} {delete}',
+            'template' => '{update}',
             'buttons' => [
                 'update' => fn($url, ProjectAgent $pa) => Html::a(
                     Html::tag('i', '', ['class' => 'fas fa-pencil']),
                     $url,
                     ['title' => Yii::t('app', 'Обновить')],
-                ),
-                'delete' => fn($url, ProjectAgent $pa) => Html::a(
-                    Html::tag('i', '', ['class' => 'fas fa-trash text-danger']),
-                    $url,
-                    ['title' => Yii::t('app', 'Удалить')],
                 ),
             ],
         ],

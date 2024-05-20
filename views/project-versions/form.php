@@ -94,7 +94,7 @@ $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]);
                         <div class="col-12">
                             <?= $form->field($projectVersion, 'files_url')->widget(
                                 FileUploadWidget::class,
-                                ['type' => FileUploadTypeEnum::PROJECT_VERSION->value],
+                                ['type' => FileUploadTypeEnum::PROJECT_VERSION->value, 'extensions' => FileUploadTypeEnum::PROJECT_VERSION->getExtensions()],
                             )->label(Yii::t('app', 'Архив'))
                                 ->hint(Yii::t('app', 'Можно загрузить архив вручную')); ?>
                         </div>

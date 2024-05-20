@@ -16,6 +16,7 @@ use yii\db\Expression;
  * @property string $description
  * @property ProjectStatusEnum $status
  * @property int $agent_id
+ * @property string|null $logo
  * @property DateTimeImmutable $created_at
  * @property DateTimeImmutable $updated_at
  *
@@ -35,7 +36,7 @@ class Project extends AbstractPgModel
     public function rules(): array
     {
         return [
-            [['name', 'description', 'status', 'agent_id'], 'required'],
+            [['name', 'description', 'status', 'agent_id', 'logo'], 'required'],
             [['name'], 'string', 'max' => 255],
             [['description'], 'string'],
             [['status'], TypeValidator::class, 'type' => ProjectStatusEnum::class],
@@ -44,6 +45,7 @@ class Project extends AbstractPgModel
             [['agent_id'], 'exist', 'targetClass' => ProjectAgent::class, 'targetAttribute' => ['agent_id' => 'id']],
             [['update_to_version_id'], 'default', 'value' => null],
             [['update_to_version_id'], $this->validateUpdateToVersionId(...)],
+            [['logo'], 'url'],
         ];
     }
 
@@ -78,6 +80,7 @@ class Project extends AbstractPgModel
             'created_at' => Yii::t('app', 'Создан'),
             'updated_at' => Yii::t('app', 'Обновлен'),
             'update_to_version_id' => Yii::t('app', 'Обновить или откатить до версии'),
+            'logo' => Yii::t('app', 'Логотип'),
         ];
     }
 

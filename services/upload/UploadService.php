@@ -33,7 +33,7 @@ UploadService
             if ($config->getChecker()->check($file)) {
                 $filename = md5(microtime()) . ".{$file->getExtension()}";
                 $saveDir = Yii::getAlias("@webroot/files/{$config->getDir()}");
-                if (!@mkdir($saveDir, 0755, true) && !is_dir($saveDir)) {
+                if (!@mkdir($saveDir, 0777, true) && !is_dir($saveDir)) {
                     $results[] = new FileUploadResult(
                         $file->getKey(),
                         false,

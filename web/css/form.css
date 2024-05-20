@@ -23,3 +23,31 @@ label {
 .form-check > * {
     cursor: pointer;
 }
+
+@keyframes loader {
+    0% {
+        transform: rotate(0deg)
+    }
+
+    100% {
+        transform: rotate(360deg)
+    }
+}
+
+.loader {
+    position: relative;
+}
+
+.loader-content {
+    position: relative;
+    width: 12px;
+    height: 12px;
+    border: .15em solid currentcolor;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    color: #000;
+    vertical-align: middle;
+    pointer-events: none;
+    animation: 1s loader linear infinite;
+    display: inline-block;
+}

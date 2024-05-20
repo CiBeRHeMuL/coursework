@@ -115,8 +115,21 @@ a {
     }
 }
 
-
 .select2-results__option--highlighted[aria-selected] {
     background-color: #e9ecef !important;
     color: #212529 !important;
+}
+
+.select2-img {
+    height: 20px;
+    margin-right: 5px;
+    border-radius: 3px;
+    object-fit: cover;
+}
+
+.select2-img-big {
+    height: 40px;
+    margin-right: 5px;
+    border-radius: 15px;
+    object-fit: cover;
 }

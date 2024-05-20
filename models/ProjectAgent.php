@@ -17,6 +17,7 @@ use Yii;
  * @property string|null $email
  * @property string|null $telegram
  * @property PreferredAgentCommunicationMethodEnum $preferred_communication_method
+ * @property string|null $avatar
  * @property DateTimeImmutable $created_at
  * @property DateTimeImmutable $updated_at
  *
@@ -85,6 +86,7 @@ class ProjectAgent extends AbstractPgModel
             'email' => Yii::t('app', 'Почта'),
             'telegram' => Yii::t('app', 'Телеграм'),
             'preferred_communication_method' => Yii::t('app', 'Предпочтительный метод связи'),
+            'avatar' => Yii::t('app', 'Аватарка'),
             'created_at' => Yii::t('app', 'Создан'),
             'updated_at' => Yii::t('app', 'Обновлен'),
         ];
@@ -152,7 +154,8 @@ class ProjectAgent extends AbstractPgModel
 
     public function getHtmlContactName(): string
     {
-        return "$this->fullName (" . $this->preferred_communication_method->getShortName() . ": $this->htmlPreferredContact)";
+        return ($this->avatar ? "<img src='$this->avatar' alt='' class='select2-img-big'>" : '')
+            . "$this->fullName (" . $this->preferred_communication_method->getShortName() . ": $this->htmlPreferredContact)";
     }
 
     private function getHtmlContact(string $contact, PreferredAgentCommunicationMethodEnum $method, string $prefix = ''): string
