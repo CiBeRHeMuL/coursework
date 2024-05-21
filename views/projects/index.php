@@ -73,7 +73,7 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Проекты'), 'u
         ],
         [
             'attribute' => 'agent_id',
-            'value' => fn(Project $p) => Html::a("#$p->agent_id " . $p->agent->fullName, ['/project-agents/view', 'id' => $p->agent_id]),
+            'value' => fn(Project $p) => Html::a("#$p->agent_id " . $p->agent->fullName, ['/users/view', 'id' => $p->agent_id]),
             'format' => 'raw',
         ],
         [

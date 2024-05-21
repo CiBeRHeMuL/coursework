@@ -30,11 +30,11 @@ use Yii;
  * @property string|null $htmlTelegram
  * @property string $htmlPreferredContact
  */
-class ProjectAgent extends AbstractPgModel
+class User extends AbstractPgModel
 {
     public static function tableName(): string
     {
-        return 'project_agent';
+        return 'user';
     }
 
     public function rules(): array
@@ -50,7 +50,9 @@ class ProjectAgent extends AbstractPgModel
             [['email'], 'email'],
             [['telegram'], 'match', 'pattern' => '/^[a-zA-Z0-9-_]{5,32}$/'],
             [['telegram'], $this->validateContacts(...), 'skipOnEmpty' => false],
-            [['phone', 'email', 'telegram'], 'unique'],
+            [['phone'], 'unique'],
+            [['email'], 'unique'],
+            [['telegram'], 'unique'],
             [['avatar'], 'url'],
         ];
     }
@@ -154,8 +156,7 @@ class ProjectAgent extends AbstractPgModel
 
     public function getHtmlContactName(): string
     {
-        return ($this->avatar ? "<img src='$this->avatar' alt='' class='select2-img-big'>" : '')
-            . "$this->fullName (" . $this->preferred_communication_method->getShortName() . ": $this->htmlPreferredContact)";
+        return "$this->fullName (" . $this->preferred_communication_method->getShortName() . ": $this->htmlPreferredContact)";
     }
 
     private function getHtmlContact(string $contact, PreferredAgentCommunicationMethodEnum $method, string $prefix = ''): string

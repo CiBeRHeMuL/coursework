@@ -20,7 +20,7 @@ use yii\db\Expression;
  * @property DateTimeImmutable $created_at
  * @property DateTimeImmutable $updated_at
  *
- * @property ProjectAgent $agent
+ * @property User $agent
  * @property ProjectVersion $currentVersion
  * @property ProjectVersion[] $versions
  */
@@ -42,7 +42,7 @@ class Project extends AbstractPgModel
             [['status'], TypeValidator::class, 'type' => ProjectStatusEnum::class],
             [['status'], $this->validateStatus(...)],
             [['agent_id'], 'integer'],
-            [['agent_id'], 'exist', 'targetClass' => ProjectAgent::class, 'targetAttribute' => ['agent_id' => 'id']],
+            [['agent_id'], 'exist', 'targetClass' => User::class, 'targetAttribute' => ['agent_id' => 'id']],
             [['update_to_version_id'], 'default', 'value' => null],
             [['update_to_version_id'], $this->validateUpdateToVersionId(...)],
             [['logo'], 'url'],
@@ -104,7 +104,7 @@ class Project extends AbstractPgModel
 
     public function getAgent(): ActiveQuery
     {
-        return $this->hasOne(ProjectAgent::class, ['id' => 'agent_id']);
+        return $this->hasOne(User::class, ['id' => 'agent_id']);
     }
 
     public function getCurrentVersion(): ActiveQuery

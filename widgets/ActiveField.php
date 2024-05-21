@@ -2,6 +2,7 @@
 
 namespace app\widgets;
 
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\JsExpression;
 use yii\widgets\ActiveForm;
@@ -37,7 +38,7 @@ class ActiveField extends \yii\bootstrap5\ActiveField
 
     public function select2Ajax(string $url, array $options = []): static
     {
-        $options = array_merge(
+        $options = ArrayHelper::merge(
             [
                 'data' => [],
                 'pluginOptions' => [

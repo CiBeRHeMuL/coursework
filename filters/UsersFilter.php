@@ -3,12 +3,12 @@
 namespace app\filters;
 
 use app\data\Sort;
-use app\models\ProjectAgent;
+use app\models\User;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use yii\db\Expression;
 
-class ProjectAgentsFilter extends Model
+class UsersFilter extends Model
 {
     public string|null $search = null;
     public string|null $name = null;
@@ -16,7 +16,7 @@ class ProjectAgentsFilter extends Model
 
     public function search(): ActiveDataProvider
     {
-        $query = ProjectAgent::find()
+        $query = User::find()
             ->alias('t')
             ->filterWhere(['ILIKE', new Expression("concat(t.name, ' ', t.surname)"), $this->name])
             ->andFilterWhere(['t.id' => $this->id]);
@@ -33,7 +33,7 @@ class ProjectAgentsFilter extends Model
 
     public function filterSearch(): ActiveDataProvider
     {
-        $query = ProjectAgent::find()
+        $query = User::find()
             ->alias('t')
             ->filterWhere([
                 'OR',

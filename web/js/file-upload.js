@@ -2,6 +2,18 @@ function FileUpload(config, $) {
     this.id = config.id;
     this.url = config.url;
 
+    let input = document.querySelector('#' + this.id + '-success-result');
+    const inputName = input.getAttribute('name');
+    let form = input.closest('form');
+    form.querySelectorAll('input[name="' + inputName + '"]').forEach((el) => {
+        el.addEventListener('change', (e) => {
+            e.stopPropagation();
+            form.querySelectorAll('input[name="' + inputName + '"]').forEach((el1) => {
+                el1.setAttribute('value', e.target.value);
+            });
+        });
+    });
+
     document.querySelector('input[type=file]').addEventListener('change', (e) => {
         e.stopPropagation();
         let text = '';
@@ -78,7 +90,7 @@ function FileUpload(config, $) {
         const inputName = input.getAttribute('name');
         let form = input.closest('form');
         form.querySelectorAll('input[name="' + inputName + '"]').forEach((el) => {
-            el.removeAttribute('value');
+            el.value = null;
         });
         document.querySelector('#' + this.id + '-file-name').textContent = '';
     });

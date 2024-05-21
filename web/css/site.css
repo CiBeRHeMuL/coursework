@@ -133,3 +133,25 @@ a {
     border-radius: 15px;
     object-fit: cover;
 }
+
+.avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    border-radius: 15px;
+    margin-right: 10px;
+    font-size: 4rem;
+}
+
+.avatar-sm {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    margin-right: 5px;
+    font-size: 1.5rem;
+}

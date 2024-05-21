@@ -53,4 +53,32 @@ class HHtml
             array_merge($options, ['class' => 'btn-group']),
         );
     }
+
+    public static function avatarFromName(string $name, bool $small = false): string
+    {
+        $hash = 0;
+        $color = '#';
+        for ($i = 0; $i < strlen($name); $i++) {
+            $hash = ord(substr($name, $i, 1)) + (($hash << 5) - $hash);
+        }
+        for ($i = 0; $i < 3; $i++) {
+            $value = ($hash >> ($i * 8)) & 0xFF;
+            $c = '00' . dechex($value);
+            $color .= substr($c, strlen($c) - 1, 2);
+        }
+
+        return Html::tag(
+            'div',
+            Html::tag('span', mb_substr($name, 0, 1)),
+            [
+                'style' => "background-color: $color;",
+                'class' => 'avatar' . ($small ? '-sm' : ''),
+            ],
+        );
+    }
+
+    public static function avatar(string $avatar, bool $small = false): string
+    {
+        return Html::img($avatar, ['class' => 'avatar' . ($small ? '-sm' : '')]);
+    }
 }

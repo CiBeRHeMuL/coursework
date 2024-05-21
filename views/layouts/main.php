@@ -39,7 +39,7 @@ $this->beginBody() ?>
         <div class="menu">
             <a class="text-muted link-opacity-hover" href="/projects"><?= Yii::t('app', 'Проекты'); ?></a>
             <a class="text-muted link-opacity-hover" href="/entries"><?= Yii::t('app', 'Новости'); ?></a>
-            <a class="text-muted link-opacity-hover" href="/project-agents"><?= Yii::t('app', 'Агенты'); ?></a>
+            <a class="text-muted link-opacity-hover" href="/users"><?= Yii::t('app', 'Пользователи'); ?></a>
         </div>
         <div class="menu-mobile">
             <div class="dropdown">
@@ -49,7 +49,7 @@ $this->beginBody() ?>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="/projects"><?= Yii::t('app', 'Проекты'); ?></a></li>
                     <li><a class="dropdown-item" href="/entries"><?= Yii::t('app', 'Новости'); ?></a></li>
-                    <li><a class="dropdown-item" href="/project-agents"><?= Yii::t('app', 'Агенты'); ?></a></li>
+                    <li><a class="dropdown-item" href="/users"><?= Yii::t('app', 'Пользователи'); ?></a></li>
                 </ul>
             </div>
         </div>
@@ -85,7 +85,7 @@ $this->beginBody() ?>
                         <a href="/entries"><?= Yii::t('app', 'Новости'); ?></a>
                     </li>
                     <li class="list-group-item bg-transparent text-muted">
-                        <a href="/project-agents"><?= Yii::t('app', 'Агенты'); ?></a>
+                        <a href="/users"><?= Yii::t('app', 'Пользователи'); ?></a>
                     </li>
                 </ul>
             </div>

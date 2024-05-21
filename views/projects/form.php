@@ -35,7 +35,7 @@ $form = ActiveForm::begin();
                     </div>
                     <div class="col-12">
                         <?= $form->field($project, 'agent_id')->select2Ajax(
-                            '/project-agents/filter',
+                            '/users/filter',
                             ['options' => ['placeholder' => Yii::t('app', 'Выбери агента')]],
                         ); ?>
                     </div>
@@ -69,7 +69,7 @@ $form = ActiveForm::begin();
                             ->textarea(['placeholder' => Yii::t('app', 'Подробное описание'), 'style' => 'min-height: 150px;']); ?>
                     </div>
                     <div class="col-12">
-                        <?= $form->field($project, 'logo')->input('url')
+                        <?= $form->field($project, 'logo')->input('text')
                             ->hint(Yii::t('app', 'Можно указать ссылку')); ?>
                     </div>
                     <div class="col-12">

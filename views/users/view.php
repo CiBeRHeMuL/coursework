@@ -2,7 +2,7 @@
 
 use app\helpers\HHtml;
 use app\models\Project;
-use app\models\ProjectAgent;
+use app\models\User;
 use app\widgets\DetailView;
 use app\widgets\GridView;
 use yii\bootstrap5\Html;
@@ -11,54 +11,61 @@ use yii\grid\ActionColumn;
 use yii\web\View;
 
 /**
- * @var ProjectAgent $projectAgent
+ * @var User $user
  * @var ActiveDataProvider $projectsDataProvider
  * @var View $this
  */
 
-$this->title = $projectAgent->name;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Агенты'), 'url' => '/project-agents'];
-$this->params['breadcrumbs'][] = ['label' => $projectAgent->fullName, 'url' => ['/project-agents/view', 'id' => $projectAgent->id]];
+$this->title = $user->name;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Пользователи'), 'url' => '/users'];
+$this->params['breadcrumbs'][] = ['label' => $user->fullName, 'url' => ['/users/view', 'id' => $user->id]];
 ?>
 <div class="row">
     <div class="col-12">
-        <div class="fs-4"><?= Yii::t('app', 'Агент {a}', ['a' => $projectAgent->htmlContactName]); ?></div>
+        <div class="d-flex align-items-center">
+            <?php if ($user->avatar) { ?>
+                <img src="<?= $user->avatar; ?>" alt="" class="avatar">
+            <?php } else { ?>
+                <?= HHtml::avatarFromName($user->name); ?>
+            <?php } ?>
+            <div class="fs-4"><?= Yii::t('app', 'Пользователь {a}', ['a' => $user->htmlContactName]); ?></div>
+        </div>
     </div>
     <div class="col-md-6 col-12">
         <?= DetailView::widget([
-            'model' => $projectAgent,
+            'model' => $user,
             'attributes' => [
                 'id',
                 'name',
                 'surname',
                 [
                     'attribute' => 'preferred_communication_method',
-                    'value' => fn(ProjectAgent $pa) => $pa->preferred_communication_method->getName() . " ({$pa->htmlPreferredContact})",
+                    'value' => fn(User $pa) => $pa->preferred_communication_method->getName() . " ({$pa->htmlPreferredContact})",
                     'format' => 'raw',
                 ],
                 [
                     'attribute' => 'phone',
-                    'value' => fn(ProjectAgent $pa) => $pa->htmlPhone,
+                    'value' => fn(User $pa) => $pa->htmlPhone,
                     'format' => 'raw',
                 ],
                 [
                     'attribute' => 'email',
-                    'value' => fn(ProjectAgent $pa) => $pa->htmlEmail,
+                    'value' => fn(User $pa) => $pa->htmlEmail,
                     'format' => 'raw',
                 ],
                 [
                     'attribute' => 'telegram',
-                    'value' => fn(ProjectAgent $pa) => $pa->htmlTelegram,
+                    'value' => fn(User $pa) => $pa->htmlTelegram,
                     'format' => 'raw',
                 ],
                 [
                     'attribute' => 'created_at',
-                    'value' => fn(ProjectAgent $pa) => HHtml::dateUi($pa->created_at),
+                    'value' => fn(User $pa) => HHtml::dateUi($pa->created_at),
                     'format' => 'raw',
                 ],
                 [
                     'attribute' => 'updated_at',
-                    'value' => fn(ProjectAgent $pa) => HHtml::dateUi($pa->updated_at),
+                    'value' => fn(User $pa) => HHtml::dateUi($pa->updated_at),
                     'format' => 'raw',
                 ],
             ],
